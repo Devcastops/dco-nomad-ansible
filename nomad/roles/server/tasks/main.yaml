@@ -1,0 +1,7 @@
+---
+  - name: Add nomad config
+    template:
+      src: config.hcl.j2
+      dest: /etc/nomad.d/config-server.hcl
+    notify: Restart nomad
+  

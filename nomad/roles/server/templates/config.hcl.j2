@@ -1,0 +1,35 @@
+bind_addr = "0.0.0.0" # the default
+
+datacenter = "dc1"
+
+
+server {
+  enabled          = true
+  bootstrap_expect = 1
+}
+
+acl {
+  enabled = true
+}
+
+advertise {
+    http = "10.2.0.6"
+    rpc = "10.2.0.6"
+    serf = "10.2.0.6"
+}
+
+tls {
+  http = true
+  cert_file = "{{ tls_crt_dest }}"
+  key_file = "{{ tls_key_dest }}"
+}
+
+vault {
+  enabled = true
+  address = "https://vault.{{ fqdn }}:8200"
+  jwt_auth_backend_path = "core/nomad"
+  default_identity {
+    aud = ["vault.io"]
+    ttl = "1h"
+  }
+}
