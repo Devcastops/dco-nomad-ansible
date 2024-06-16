@@ -1,0 +1,10 @@
+---
+config_dir    : "/etc/nomad.d"
+data_dir      : "/opt/nomad/data"
+version       : 1.7.7
+wipe_data     : false
+user          : nomad
+group         : nomad
+client_run_as : root
+tls_key_dest: ""
+tls_crt_dest: ""
