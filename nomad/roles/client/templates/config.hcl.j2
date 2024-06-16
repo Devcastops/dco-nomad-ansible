@@ -1,0 +1,17 @@
+client {
+  enabled = true
+  servers = ["{{ query('inventory_hostnames', 'nomad_server') | join('","')}}"]
+  node_pool = "{{nomad_node_pool}}"
+}
+
+plugin "raw_exec" {
+  config {
+    enabled = true
+  }
+}
+
+plugin "docker" {
+  config {
+    allow_privileged = true
+  }
+}
