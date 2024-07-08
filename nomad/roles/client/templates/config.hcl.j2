@@ -1,7 +1,9 @@
 client {
   enabled = true
+  {% if ("nomad_server" in group_names) %}
   servers = ["{{ query('inventory_hostnames', 'nomad_server') | join('","')}}"]
   node_pool = "{{nomad_node_pool}}"
+  {% endif %}
 }
 
 plugin "raw_exec" {
