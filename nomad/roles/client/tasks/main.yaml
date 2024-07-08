@@ -2,6 +2,6 @@
   - name: Add nomad config
     template:
       src: config.hcl.j2
-      dest: "{{nomad_config_dir}}/config-client.hcl"
+      dest: "{{config_dir}}/config-client.hcl"
     notify: Restart nomad
   
