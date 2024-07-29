@@ -5,3 +5,8 @@
       dest: "{{config_dir}}/config-client.hcl"
     notify: Restart nomad
   
+  - name: Install Packages
+    ansible.builtin.package:
+      name: "{{item}}"
+    with_items:
+      - podman
