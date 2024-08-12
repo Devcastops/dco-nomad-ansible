@@ -11,6 +11,15 @@
     with_items:
       - podman
 
+  - name: Create plugins Directory
+    file:
+      path: "{{item}}"
+      state: directory
+      owner: nomad
+      group: nomad
+    with_items: 
+      - "{{data_dir}}/plugins"
+
   - name: Install nomad-driver-podman
     ansible.builtin.get_url:
       url: https://releases.hashicorp.com/nomad-driver-podman/0.6.1/nomad-driver-podman_0.6.1_linux_amd64.zip
