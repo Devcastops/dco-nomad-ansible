@@ -20,14 +20,24 @@
     with_items: 
       - "{{data_dir}}/plugins"
 
-  - name: Install nomad-driver-podman
+  - name: Install nomad-driver
     ansible.builtin.get_url:
-      url: https://releases.hashicorp.com/nomad-driver-podman/0.6.1/nomad-driver-podman_0.6.1_linux_amd64.zip
-      dest: /tmp/nomad-driver-podman-0.6.1.zip
-  
-  - name: Unzip nomad-driver-podman
+      url: https://releases.hashicorp.com/{{ item.name }}/{{ item.version }}/{{ item.name }}_{{ item.version }}_linux_amd64.zip
+      dest: /tmp{{ item.name }}-{{ item.version }}.zip
+    with_items: 
+      - name: nomad-driver-podman
+        version: "0.6.1"
+      - name: nomad-driver-exec2
+        version: 0.1.0-beta.2
+        
+  - name: Unzip nomad-driver
     unarchive:
-      src: /tmp/nomad-driver-podman-0.6.1.zip
+      src: /tmp{{ item.name }}-{{ item.version }}.zip
       dest: "{{data_dir}}/plugins"
       remote_src: true
     notify: Restart nomad
+    with_items: 
+      - name: nomad-driver-podman
+        version: "0.6.1"
+      - name: nomad-driver-exec2
+        version: 0.1.0-beta.2
