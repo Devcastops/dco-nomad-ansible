@@ -1,2 +1,4 @@
 ---
 # defaults file for base
+advertise_addr: "10.2.0.6"
+acl_enabled: true
