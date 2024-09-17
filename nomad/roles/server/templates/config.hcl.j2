@@ -9,20 +9,25 @@ server {
 }
 
 acl {
-  enabled = true
+  enabled = {{ acl_enabled | lower}}
 }
 
+{% if advertise_addr != "" %}
 advertise {
-    http = "10.2.0.6"
-    rpc = "10.2.0.6"
-    serf = "10.2.0.6"
+    http = "{{ advertise_addr }}"
+    rpc = "{{ advertise_addr }}"
+    serf = "{{ advertise_addr }}"
 }
+{% endif %}
 
+{% if tls_crt_dest != "" %}
 tls {
   http = true
   cert_file = "{{ tls_crt_dest }}"
   key_file = "{{ tls_key_dest }}"
 }
+{% endif %}
+
 
 vault {
   enabled = true
