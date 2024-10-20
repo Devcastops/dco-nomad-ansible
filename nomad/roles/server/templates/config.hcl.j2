@@ -26,8 +26,6 @@ tls {
 
 vault {
   enabled = true
-  address = "https://vault.{{ fqdn }}:8200"
-  jwt_auth_backend_path = "core/nomad"
   default_identity {
     aud = ["vault.io"]
     ttl = "1h"
