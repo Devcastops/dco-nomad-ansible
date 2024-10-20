@@ -28,3 +28,12 @@ plugin "podman" {
 
 plugin "nomad-driver-exec2" {
 }
+
+{% if vault_address != "" %}
+
+vault {
+  enabled = true
+  address = "{{ vault_address }}"
+}
+
+{% endif %}
