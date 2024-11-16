@@ -1,7 +1,7 @@
 ---
 config_dir    : "/etc/nomad.d"
 data_dir      : "/opt/nomad/data"
-version       : 1.9.1
+version       : 1.9.3
 wipe_data     : false
 user          : nomad
 group         : nomad
