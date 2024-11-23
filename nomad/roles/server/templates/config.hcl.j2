@@ -1,4 +1,4 @@
-bind_addr = "0.0.0.0" # the default
+bind_addr = "::" 
 
 datacenter = "dc1"
 
@@ -13,9 +13,9 @@ acl {
 }
 
 advertise {
-    http = "10.2.0.6"
-    rpc = "10.2.0.6"
-    serf = "10.2.0.6"
+  http = {{'"{{ GetPublicInterfaces | include `type` `IPv6` | limit 1 | attr `address` }}"'}}
+  rpc  = {{'"{{ GetPublicInterfaces | include `type` `IPv6` | limit 1 | attr `address` }}"'}}
+  serf = {{'"{{ GetPublicInterfaces | include `type` `IPv6` | limit 1 | attr `address` }}"'}}
 }
 
 tls {
