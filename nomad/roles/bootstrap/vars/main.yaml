@@ -1,0 +1,5 @@
+nomad_output: "{{ init.stdout | from_json }}"
+bootstap_token: "{{ nomad_output.SecretID }}"
+initialized: "{{ init.rc == 1 }}"
+HCP_CLIENT_SECRET: "{{ lookup('ansible.builtin.env', 'HCP_CLIENT_SECRET') }}"
+HCP_CLIENT_ID: "{{ lookup('ansible.builtin.env', 'HCP_CLIENT_ID') }}"

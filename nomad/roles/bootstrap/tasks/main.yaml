@@ -1,0 +1,44 @@
+# # find if is bootstraped
+
+# - name: check status of nomad server
+#   ansible.builtin.uri:
+#     url: https://vault.devcastops.com:8200/v1/sys/health
+#     return_content: true
+#     status_code: [200,501]
+#   register: health
+
+# bootstrap nomad
+
+- name: init nomad
+  # no_log: true
+  shell:
+    cmd: nomad acl bootstrap -json -address=https://nomad.devcastops.com:4646
+  register: init
+  ignore_errors: true
+
+- name: error handleing
+  debug: "bootstrapping failed with unexpected error code with message. stderr: {{ init.stderr }} stdout: {{ init.stdout }}"
+  when: init.rc == 1 and "ACL bootstrap already done" not in init.stderr
+
+# upload tokens in to vault secrets
+
+- name: remove old bootstrap
+  delegate_to: localhost
+  no_log: false
+  environment:
+    HCP_CLIENT_SECRET: "{{ HCP_CLIENT_SECRET }}"
+    HCP_CLIENT_ID: "{{ HCP_CLIENT_ID }}"
+  shell:
+    cmd: "hcp vault-secrets secrets delete NOMAD_TOKEN --app=0-secrets"
+  ignore_errors: true
+  when: not initialized
+
+- name: store bootstrap
+  delegate_to: localhost
+  no_log: false
+  environment:
+    HCP_CLIENT_SECRET: "{{ HCP_CLIENT_SECRET }}"
+    HCP_CLIENT_ID: "{{ HCP_CLIENT_ID }}"
+  shell:
+    cmd: "echo -n {{bootstap_token}} | hcp vault-secrets secrets create NOMAD_TOKEN --data-file=- --app=0-secrets --format=json"
+  when: not initialized
