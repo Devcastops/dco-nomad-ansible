@@ -9,10 +9,17 @@
 
 # bootstrap nomad
 
+- name: nomad status
+  shell:
+    cmd: nomad status
+  retries: 5
+  register: status
+  failed_when: status.rc == 1 and "connection refused" in status.stderr
+
 - name: init nomad
   # no_log: true
   shell:
-    cmd: nomad acl bootstrap -json -address=https://nomad.devcastops.com:4646
+    cmd: nomad acl bootstrap -json -address={{ nomad_addr }}
   register: init
   ignore_errors: true
 
@@ -22,6 +29,15 @@
 
 # upload tokens in to vault secrets
 
+- name: init hcp
+  delegate_to: localhost
+  environment:
+    HCP_CLIENT_SECRET: "{{ HCP_CLIENT_SECRET }}"
+    HCP_CLIENT_ID: "{{ HCP_CLIENT_ID }}"
+  shell:
+    cmd: "hcp profile set organization_id {{ organization_id }}; hcp profile set project_id {{ project_id }}"
+  when: not initialized
+
 - name: remove old bootstrap
   delegate_to: localhost
   no_log: false
@@ -29,7 +45,7 @@
     HCP_CLIENT_SECRET: "{{ HCP_CLIENT_SECRET }}"
     HCP_CLIENT_ID: "{{ HCP_CLIENT_ID }}"
   shell:
-    cmd: "hcp vault-secrets secrets delete NOMAD_TOKEN --app=0-secrets"
+    cmd: "hcp vault-secrets secrets delete NOMAD_TOKEN --app={{ secret_app }}"
   ignore_errors: true
   when: not initialized
 
@@ -40,5 +56,5 @@
     HCP_CLIENT_SECRET: "{{ HCP_CLIENT_SECRET }}"
     HCP_CLIENT_ID: "{{ HCP_CLIENT_ID }}"
   shell:
-    cmd: "echo -n {{bootstap_token}} | hcp vault-secrets secrets create NOMAD_TOKEN --data-file=- --app=0-secrets --format=json"
+    cmd: "echo -n {{bootstap_token}} | hcp vault-secrets secrets create NOMAD_TOKEN --data-file=- --app={{ secret_app }} --format=json"
   when: not initialized
