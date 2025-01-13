@@ -20,10 +20,22 @@
     with_items: 
       - "{{data_dir}}/plugins"
 
-  - name: Install nomad-driver
+  - name: Install nomad-driver amd64
     ansible.builtin.get_url:
       url: https://releases.hashicorp.com/{{ item.name }}/{{ item.version }}/{{ item.name }}_{{ item.version }}_linux_amd64.zip
-      dest: /tmp{{ item.name }}-{{ item.version }}.zip
+      dest: /tmp/{{ item.name }}-{{ item.version }}.zip
+    when: ansible_architecture == "x86_64"
+    with_items: 
+      - name: nomad-driver-podman
+        version: "0.6.1"
+      - name: nomad-driver-exec2
+        version: 0.1.0-beta.2
+
+  - name: Install nomad-driver arm64
+    ansible.builtin.get_url:
+      url: https://releases.hashicorp.com/{{ item.name }}/{{ item.version }}/{{ item.name }}_{{ item.version }}_linux_arm64.zip
+      dest: /tmp/{{ item.name }}-{{ item.version }}.zip
+    when: ansible_architecture == "aarch64"
     with_items: 
       - name: nomad-driver-podman
         version: "0.6.1"
@@ -32,7 +44,7 @@
         
   - name: Unzip nomad-driver
     unarchive:
-      src: /tmp{{ item.name }}-{{ item.version }}.zip
+      src: /tmp/{{ item.name }}-{{ item.version }}.zip
       dest: "{{data_dir}}/plugins"
       remote_src: true
     notify: Restart nomad
