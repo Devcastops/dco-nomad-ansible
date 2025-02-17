@@ -18,11 +18,16 @@ advertise {
   serf = {{'"{{ GetPublicInterfaces | include `type` `IPv6` | limit 1 | attr `address` }}"'}}
 }
 
+
+{% if tls_key_dest != "" %}
+
 tls {
   http = true
   cert_file = "{{ tls_crt_dest }}"
   key_file = "{{ tls_key_dest }}"
 }
+
+{% endif %}
 
 vault {
   enabled = true

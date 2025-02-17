@@ -1,0 +1,6 @@
+---
+data_dir      : "/opt/nomad/data"
+cleanup_paths : 
+  - "{{ data_dir }}/client/client-id"
+  - "{{ data_dir }}/client/secret-id"
+  - "{{ data_dir }}/client/state.db"

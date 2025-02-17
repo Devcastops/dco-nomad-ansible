@@ -1,0 +1,12 @@
+---
+
+  - name: Stop nomad
+    systemd:
+      name: nomad.service
+      state: stopped
+  
+  - name: Clear path
+    file:
+      path: "{{ item }}"
+      state: absent
+    with_items : "{{ cleanup_paths }}"

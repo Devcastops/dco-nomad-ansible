@@ -16,10 +16,17 @@
       name: "{{user}}"
       group: "{{group}}"
   
-  - name: Install nomad
+  - name: Install nomad amd64
     ansible.builtin.get_url:
       url: https://releases.hashicorp.com/nomad/{{ version }}/nomad_{{ version }}_linux_amd64.zip
       dest: /tmp/nomad{{ version }}.zip
+    when: ansible_architecture == "x86_64"
+
+  - name: Install nomad arm64
+    ansible.builtin.get_url:
+      url: https://releases.hashicorp.com/nomad/{{ version }}/nomad_{{ version }}_linux_arm64.zip
+      dest: /tmp/nomad{{ version }}.zip
+    when: ansible_architecture == "aarch64"
   
   - name: Unzip nomad
     unarchive:
