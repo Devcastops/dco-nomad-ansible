@@ -11,7 +11,7 @@
 
 - name: nomad status
   shell:
-    cmd: nomad status
+    cmd: nomad status -address={{ nomad_addr }}
   retries: 5
   register: status
   failed_when: status.rc == 1 and "connection refused" in status.stderr
