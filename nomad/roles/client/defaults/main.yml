@@ -2,3 +2,4 @@
 # defaults file for base
 
 vault_address: ""
+server_address: ""

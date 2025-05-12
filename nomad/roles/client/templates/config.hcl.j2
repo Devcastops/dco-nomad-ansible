@@ -3,6 +3,8 @@ client {
   {% if ("nomad_server" in group_names) %}
   servers = ["{{ query('inventory_hostnames', 'nomad_server') | join('","')}}"]
   node_pool = "{{nomad_node_pool}}"
+  {% else %}
+  servers = ["{{ server_address }}"]
   {% endif %}
   artifact  {
     # disable limit of of files can unarchive in a artifact step
