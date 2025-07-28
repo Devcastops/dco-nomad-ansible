@@ -15,6 +15,8 @@
     user:
       name: "{{user}}"
       group: "{{group}}"
+      groups: "consul"
+      append: true
   
   - name: Install nomad amd64
     ansible.builtin.get_url:

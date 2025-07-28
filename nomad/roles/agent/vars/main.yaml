@@ -1,0 +1,4 @@
+config_dir: /etc/vault-agent.d
+nomad_group: nomad
+nomad_user: nomad
+nomad_config_dir: "/etc/nomad.d"

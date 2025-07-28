@@ -6,3 +6,6 @@ wipe_data     : false
 user          : nomad
 group         : nomad
 client_run_as : root
+
+consul_config_dir: "/etc/consul.d"
+consul_tls_dir: "{{consul_config_dir}}/tls"
