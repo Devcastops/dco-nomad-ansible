@@ -37,6 +37,7 @@
     unarchive:
       src: "/tmp/cni_{{CNI_PLUGIN_VERSION}}.tgz"
       dest: /opt/cni/bin
+      remote_src: true
     notify: Restart nomad
 
   - name: Install nomad-driver amd64
