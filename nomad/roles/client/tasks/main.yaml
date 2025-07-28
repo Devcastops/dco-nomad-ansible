@@ -30,6 +30,8 @@
         version: "0.6.1"
       - name: nomad-driver-exec2
         version: 0.1.0-beta.2
+      - name: consul-cni
+        version: "1.8.0"
 
   - name: Install nomad-driver arm64
     ansible.builtin.get_url:
@@ -41,6 +43,8 @@
         version: "0.6.1"
       - name: nomad-driver-exec2
         version: 0.1.0-beta.2
+      - name: consul-cni
+        version: "1.8.0"
         
   - name: Unzip nomad-driver
     unarchive:
@@ -53,3 +57,5 @@
         version: "0.6.1"
       - name: nomad-driver-exec2
         version: 0.1.0-beta.2
+      - name: consul-cni
+        version: "1.8.0"
