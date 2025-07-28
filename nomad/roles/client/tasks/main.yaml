@@ -19,6 +19,25 @@
       group: nomad
     with_items: 
       - "{{data_dir}}/plugins"
+      - /opt/cni/bin
+
+# export ARCH_CNI=$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)
+# export CNI_PLUGIN_VERSION=v1.6.2
+# curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/${CNI_PLUGIN_VERSION}/cni-plugins-linux-${ARCH_CNI}-${CNI_PLUGIN_VERSION}".tgz && \
+# sudo mkdir -p /opt/cni/bin && \
+# sudo tar -C /opt/cni/bin -xzf cni-plugins.tgz
+
+  - name: download cni plugins
+    get_url:
+      url: "https://github.com/containernetworking/plugins/releases/download/{{CNI_PLUGIN_VERSION}}/cni-plugins-linux-amd64-{{CNI_PLUGIN_VERSION}}.tgz"
+      dest: "/tmp/cni_{{CNI_PLUGIN_VERSION}}.tgz"
+    when: ansible_architecture == "x86_64"
+
+  - name: uzip cni plugin
+    unarchive:
+      src: "/tmp/cni_{{CNI_PLUGIN_VERSION}}.tgz"
+      dest: /opt/cni/bin
+    notify: Restart nomad
 
   - name: Install nomad-driver amd64
     ansible.builtin.get_url:

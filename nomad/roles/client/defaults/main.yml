@@ -3,3 +3,4 @@
 
 vault_address: ""
 server_address: ""
+CNI_PLUGIN_VERSION: v1.6.2
