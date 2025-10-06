@@ -69,7 +69,7 @@
   - name: Unzip nomad-driver
     unarchive:
       src: /tmp/{{ item.name }}-{{ item.version }}.zip
-      dest: "{{data_dir}}/plugins"
+      dest: "{{ item.dest }}"
       remote_src: true
     notify: Restart nomad
     with_items: 
