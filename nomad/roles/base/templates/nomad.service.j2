@@ -10,6 +10,8 @@ After=network-online.target
 Wants=consul.service
 After=consul.service
 
+ConditionPathExists={{ trigger_file_location }}
+
 [Service]
 
 # Nomad server should be run as the nomad user. Nomad clients

@@ -1,2 +1,4 @@
 ---
 # defaults file for base
+
+packer_build: false

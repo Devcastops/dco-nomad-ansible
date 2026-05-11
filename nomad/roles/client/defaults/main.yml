@@ -1,6 +1,7 @@
 ---
 # defaults file for base
 
-vault_address: ""
-server_address: ""
+vault_address: "vault.service.consul:8200"
+server_address: "nomad.service.consul"
 CNI_PLUGIN_VERSION: v1.6.2
+packer_build: false

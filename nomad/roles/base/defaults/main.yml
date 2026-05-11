@@ -1,2 +1,5 @@
 ---
 # defaults file for base
+
+trigger_file_location: "{{ config_dir }}/config.hcl"
+packer_build: false
