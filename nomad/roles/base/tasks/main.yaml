@@ -67,3 +67,8 @@
       src: nomad.service.j2
       dest: /etc/systemd/system/nomad.service
     notify: Restart nomad
+  
+  - name: Enable nomad Service
+    systemd:
+      name: nomad.service
+      enabled: true
