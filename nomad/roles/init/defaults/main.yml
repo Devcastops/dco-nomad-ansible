@@ -1,0 +1,7 @@
+---
+
+NOMAD_INIT_DIR: /etc/nomad.d/init
+NOMAD_ADDR: http://nomad.service.consul:4646
+vault_address: http://vault.service.consul:8200
+USER: root
+GROUP: root

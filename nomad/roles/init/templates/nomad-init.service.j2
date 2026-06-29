@@ -1,0 +1,22 @@
+# nomad-init.service systemd unit template — wires the script into systemd:
+# - Type=oneshot — run once and exit
+# - After=nomad.service — waits for Nomad to be up
+# - ConditionPathExists=!/etc/nomad.d/.nomad-initialized — skips entirely if marker file exists (idempotent across reboots)
+# - RemainAfterExit=yes — systemd considers the service "active" after it completes
+
+
+[Unit]
+Description=Nomad Initialization Script
+Documentation=https://www.nomad.io/docs/
+After=nomad.service
+ConditionPathExists=!{{ NOMAD_INIT_DIR }}/.nomad-initialized
+
+[Service]
+Type=oneshot
+User={{ USER }}
+Group={{ GROUP }}
+ExecStart={{ NOMAD_INIT_DIR }}/nomad-init.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

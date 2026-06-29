@@ -1,0 +1,23 @@
+# tasks/main.yml — deploys both:
+# - Copy the script template to the server with mode: 0700
+# - Copy the service unit to /etc/systemd/system/nomad-init.service
+# - systemctl enable nomad-init.service — so it runs on first boot automatically
+
+- name: Ensure nomad-init directory exists
+  file:
+    path: "{{ NOMAD_INIT_DIR }}"
+    state: directory
+    mode: '0700'
+
+
+- name: Copy nomad-init script to server
+  template:
+    src: nomad-init.sh.j2
+    dest: "{{ NOMAD_INIT_DIR }}/nomad-init.sh"
+    mode: '0700'
+
+- name: Copy nomad-init systemd service unit to server
+  template:
+    src: nomad-init.service.j2
+    dest: /etc/systemd/system/nomad-init.service
+    mode: '0644'
